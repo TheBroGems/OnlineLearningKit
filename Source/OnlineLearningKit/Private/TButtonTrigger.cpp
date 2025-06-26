@@ -46,6 +46,8 @@ void ATButtonTrigger::BeginPlay()
 void ATButtonTrigger::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	UE_LOG(LogTemp, Display, TEXT("Button Trigger Begin Overlap"));
+	
 	if (!OtherActor || !OtherActor->IsA<ACharacter>())
 		return;
 
@@ -55,6 +57,7 @@ void ATButtonTrigger::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedCompo
 
 	if (DoorActor)
 	{
+		UE_LOG(LogTemp, Display, TEXT("Calling Open Door"));
 		DoorActor->OpenDoor();
 	}
 }

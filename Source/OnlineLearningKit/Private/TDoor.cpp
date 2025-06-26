@@ -21,8 +21,14 @@ ATDoor::ATDoor()
 
 void ATDoor::OpenDoor()
 {
-	FVector NewDoorLocation = DoorStartLocation + FVector(0, 0, 200);
-	DoorMesh->SetRelativeLocation(NewDoorLocation);
+	UE_LOG(LogTemp, Display, TEXT("Should Open = true"));
+	bShouldOpen = true;
+}
+
+void ATDoor::CloseDoor()
+{
+	UE_LOG(LogTemp, Display, TEXT("Should Open = false"));
+	bShouldOpen = false;
 }
 
 // Called when the game starts or when spawned
@@ -41,5 +47,22 @@ void ATDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bShouldOpen)
+	{		
+		// Update move alpha
+		MoveAlpha = MoveAlpha + (DeltaTime * SpeedMultiplier);
+		// Clamp to parametric
+		MoveAlpha = FMath::Clamp(MoveAlpha, 0.0f, 1.0f);
+	}
+	else
+	{
+		// Update move alpha
+		MoveAlpha = MoveAlpha - (DeltaTime * SpeedMultiplier);
+		// Clamp to parametric
+		MoveAlpha = FMath::Clamp(MoveAlpha, 0.0f, 1.0f);
+	}
+	
+	FVector NewDoorLocation = FMath::Lerp(DoorStartLocation, (DoorStartLocation + DoorOffset), MoveAlpha);
+	DoorMesh->SetRelativeLocation(NewDoorLocation);	
 }
 

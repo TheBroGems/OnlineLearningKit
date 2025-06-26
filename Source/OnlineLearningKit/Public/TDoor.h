@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable,Category="Door")
 	void OpenDoor();
 
+	UFUNCTION(BlueprintCallable,Category="Door")
+	void CloseDoor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,6 +35,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere)
+	float SpeedMultiplier = 1.0f;
+	
 private:
 	FVector DoorStartLocation;
+	FVector DoorOffset = FVector(0.0f, 170.0f, 0.0f);
+
+	bool bShouldOpen = false;
+	float MoveAlpha = 0.0f;
 };
